@@ -4,6 +4,7 @@ import { deactivateResourceAction, reactivateResourceAction } from "@/server/act
 import PageHeader from "@/components/ui/PageHeader";
 import Badge from "@/components/ui/Badge";
 import Alert from "@/components/ui/Alert";
+import ResourceIcon from "@/components/ui/ResourceIcon";
 import { button, cardStyle } from "@/components/ui/styles";
 
 export const instant = false;
@@ -23,20 +24,27 @@ export default async function ResourcesPage({ searchParams }: { searchParams: Pr
       {error && <Alert>{error}</Alert>}
 
       <div className={`${cardStyle} divide-y divide-slate-100`}>
-        {resources.map((r) => (
-          <div key={r.id} className={`flex flex-wrap items-center justify-between gap-4 p-4 ${r.is_active ? "" : "bg-slate-50"}`}>
-            <div className="min-w-0">
-              <div className="flex flex-wrap items-center gap-2">
-                <Link href={`/resources/${r.id}`} className="font-medium text-slate-900 hover:text-blue-600">
-                  {r.name}
-                </Link>
-                <Badge tone="blue">{r.type}</Badge>
-                {!r.is_active && <Badge>Inactive</Badge>}
+        {resources.map((r, i) => (
+          <div
+            key={r.id}
+            style={{ "--i": i } as React.CSSProperties}
+            className={`animate-fade-up flex flex-wrap items-center justify-between gap-4 p-4 ${r.is_active ? "" : "bg-slate-50"}`}
+          >
+            <div className="flex min-w-0 items-center gap-4">
+              <ResourceIcon type={r.type} />
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Link href={`/resources/${r.id}`} className="font-medium text-slate-900 hover:text-indigo-600">
+                    {r.name}
+                  </Link>
+                  <Badge tone={r.type === "equipment" ? "amber" : "blue"}>{r.type}</Badge>
+                  {!r.is_active && <Badge>Inactive</Badge>}
+                </div>
+                <p className="mt-1 text-sm text-slate-500">
+                  {r.capacity ? `Capacity ${r.capacity}` : "No capacity set"}
+                  {r.description ? ` · ${r.description}` : ""}
+                </p>
               </div>
-              <p className="mt-1 text-sm text-slate-500">
-                {r.capacity ? `Capacity ${r.capacity}` : "No capacity set"}
-                {r.description ? ` · ${r.description}` : ""}
-              </p>
             </div>
 
             <div className="flex items-center gap-2">

@@ -32,7 +32,7 @@ export default function LoginPage() {
                     </button>
                 </form>
                 <div className="mt-4 text-center">
-                    <Link href="/" className="text-sm font-medium text-blue-600 hover:underline">
+                    <Link href="/" className="text-sm font-medium text-indigo-600 hover:underline">
                         ← Back to Dashboard
                     </Link>
                 </div>

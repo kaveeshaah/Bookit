@@ -41,12 +41,12 @@ export default async function ReservationsPage({
         action={<Link href="/reservations/new" className={button("primary")}>+ New reservation</Link>}
       />
 
-      <div className="mb-4 flex gap-1 rounded-lg bg-slate-200/60 p-1 sm:w-fit">
+      <div className="mb-4 flex gap-1 rounded-xl bg-slate-200/60 p-1 sm:w-fit">
         {VIEWS.map((v) => (
           <Link
             key={v.key}
             href={`/reservations?view=${v.key}`}
-            className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+            className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
               view === v.key ? "bg-white text-slate-900 shadow-sm" : "text-slate-600 hover:text-slate-900"
             }`}
           >
@@ -58,10 +58,14 @@ export default async function ReservationsPage({
       {error && <Alert>{error}</Alert>}
 
       <div className={`${cardStyle} divide-y divide-slate-100`}>
-        {rows.map((r) => {
+        {rows.map((r, i) => {
           const upcoming = r.status === "confirmed" && r.end_time > now;
           return (
-            <div key={r.id} className="flex flex-wrap items-center justify-between gap-4 p-4">
+            <div
+              key={r.id}
+              style={{ "--i": i } as React.CSSProperties}
+              className="animate-fade-up flex flex-wrap items-center justify-between gap-4 p-4"
+            >
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
                   <p className="font-medium text-slate-900">{r.title}</p>

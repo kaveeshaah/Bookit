@@ -1,5 +1,8 @@
 export const APP_TIME_ZONE = "Asia/Colombo";
 
+export const OPEN_HOUR = 8;
+export const CLOSE_HOUR = 18;
+
 const dateFmt = new Intl.DateTimeFormat("en-GB", {
     timeZone: APP_TIME_ZONE, day: "numeric", month: "short", year: "numeric",
 });

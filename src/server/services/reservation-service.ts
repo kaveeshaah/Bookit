@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import { ServiceError } from "./resource-service";
 import type { ReservationInput } from "@/validation/reservation";
+import { OPEN_HOUR, CLOSE_HOUR } from "@/lib/dates";
 
 // Different Prisma versions surface Postgres errors differently, so check
 // the error code and message wherever they might appear.
@@ -44,8 +45,6 @@ export async function cancelReservation(id: number) {
     return db.reservation.update({ where: { id }, data: { status: "cancelled" } });
 }
 
-const OPEN_HOUR = 8; // bookable window shown on the availability page
-const CLOSE_HOUR = 18;
 const HOUR_MS = 3_600_000;
 
 export async function getDayAvailability(resourceId: number, dateStr: string) {

@@ -3,3 +3,51 @@
 :root {
   color-scheme: light;
 }
+
+body {
+  background-image:
+    radial-gradient(50rem 24rem at 15% -10%, rgb(99 102 241 / 0.12), transparent),
+    radial-gradient(40rem 22rem at 90% -5%, rgb(217 70 239 / 0.08), transparent);
+  background-repeat: no-repeat;
+}
+
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes grow-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+.animate-fade-in { animation: fade-in 0.35s ease both; }
+.animate-fade-up {
+  animation: fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+.animate-grow-x {
+  transform-origin: left;
+  animation: grow-x 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i, 0) * 90ms + 200ms);
+}
+.animate-float { animation: float 7s ease-in-out infinite; }
+
+.hover-lift { transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
+.hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px -12px rgb(79 70 229 / 0.35);
+  border-color: rgb(165 180 252);
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 37%, #e2e8f0 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-radius: 0.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

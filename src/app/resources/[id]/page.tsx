@@ -4,6 +4,7 @@ import { getResource } from "@/server/services/resource-service";
 import { getDayAvailability } from "@/server/services/reservation-service";
 import { formatDate, formatTime, shiftDate, todayString } from "@/lib/dates";
 import { button, cardStyle, inputStyle } from "@/components/ui/styles";
+import DayTimeline from "@/components/reservations/DayTimeline";
 
 export const instant = false;
 
@@ -27,7 +28,7 @@ export default async function ResourceDetailPage({
 
     return (
         <div>
-            <Link href="/resources" className="text-sm font-medium text-blue-600 hover:underline">← Resources</Link>
+            <Link href="/resources" className="text-sm font-medium text-indigo-600 hover:underline">← Resources</Link>
 
             <div className="mb-6 mt-2 flex flex-wrap items-start justify-between gap-4">
                 <div>
@@ -49,12 +50,18 @@ export default async function ResourceDetailPage({
                 <Link href={`${base}?date=${shiftDate(date, -1)}`} className={button("secondary", "sm")}>← Prev</Link>
                 <span className="min-w-32 text-center font-medium text-slate-900">{label}</span>
                 <Link href={`${base}?date=${shiftDate(date, 1)}`} className={button("secondary", "sm")}>Next →</Link>
-                <Link href={base} className="px-2 text-sm font-medium text-blue-600 hover:underline">Today</Link>
+                <Link href={base} className="px-2 text-sm font-medium text-indigo-600 hover:underline">Today</Link>
                 <form className="ml-auto flex gap-2">
                     <input type="date" name="date" defaultValue={date} className={inputStyle} />
                     <button className={button("secondary", "sm")}>Go</button>
                 </form>
             </div>
+
+            {/* Visual Day Timeline */}
+            <section className={`${cardStyle} mb-6 p-5`}>
+                <h2 className="mb-4 font-semibold text-slate-900">Day at a glance</h2>
+                <DayTimeline date={date} bookings={bookings} />
+            </section>
 
             <div className="grid gap-6 md:grid-cols-2">
                 <section className={`${cardStyle} p-5`}>
@@ -64,7 +71,7 @@ export default async function ResourceDetailPage({
                     ) : (
                         <ul className="space-y-2">
                             {bookings.map((b) => (
-                                <li key={b.id} className="rounded-lg border border-red-200 bg-red-50 p-3 text-red-900">
+                                <li key={b.id} className="rounded-lg border border-rose-200 bg-rose-50 p-3 text-rose-900">
                                     <p className="font-medium">{formatTime(b.start_time)} – {formatTime(b.end_time)}</p>
                                     <p className="text-sm">{b.title} · {b.user.name}</p>
                                 </li>
@@ -80,7 +87,7 @@ export default async function ResourceDetailPage({
                     ) : (
                         <ul className="space-y-2">
                             {free.map((f, i) => (
-                                <li key={i} className="rounded-lg border border-green-200 bg-green-50 p-3 text-green-900">
+                                <li key={i} className="rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-emerald-900">
                                     {formatTime(f.start)} – {formatTime(f.end)}
                                 </li>
                             ))}
