@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import ResourceForm from "@/components/resources/ResourceForm";
+import PageHeader from "@/components/ui/PageHeader";
 import { updateResourceAction } from "@/server/actions/resources";
 import { getResource } from "@/server/services/resource-service";
 
@@ -11,13 +12,13 @@ export default async function EditResourcePage({ params }: { params: Promise<{ i
     if (!resource) notFound();
 
     return (
-        <main className="mx-auto max-w-4xl p-6">
-            <h1 className="mb-6 text-2xl font-bold">Edit {resource.name}</h1>
+        <div>
+            <PageHeader title={`Edit ${resource.name}`} />
             <ResourceForm
                 action={updateResourceAction.bind(null, resource.id)}
                 submitLabel="Save changes"
                 defaults={resource}
             />
-        </main>
+        </div>
     );
 }

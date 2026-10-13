@@ -16,26 +16,31 @@ function parse(formData: FormData) {
 }
 
 export async function createResourceAction(_prev: FormState, formData: FormData): Promise<FormState> {
+    const values = Object.fromEntries(formData) as Record<string, string>;
     const parsed = parse(formData);
-    if (!parsed.success) return { fieldErrors: parsed.error.flatten().fieldErrors };
+    if (!parsed.success) return { fieldErrors: parsed.error.flatten().fieldErrors, values };
     try {
         await service.createResource(parsed.data);
     } catch (e) {
-        return { error: friendlyError(e) };
+        return { error: friendlyError(e), values };
     }
     revalidatePath("/resources");
+    revalidatePath("/");
     redirect("/resources");
 }
 
 export async function updateResourceAction(id: number, _prev: FormState, formData: FormData): Promise<FormState> {
+    const values = Object.fromEntries(formData) as Record<string, string>;
     const parsed = parse(formData);
-    if (!parsed.success) return { fieldErrors: parsed.error.flatten().fieldErrors };
+    if (!parsed.success) return { fieldErrors: parsed.error.flatten().fieldErrors, values };
     try {
         await service.updateResource(id, parsed.data);
     } catch (e) {
-        return { error: friendlyError(e) };
+        return { error: friendlyError(e), values };
     }
     revalidatePath("/resources");
+    revalidatePath(`/resources/${id}`);
+    revalidatePath("/");
     redirect("/resources");
 }
 
@@ -46,11 +51,13 @@ export async function deactivateResourceAction(id: number): Promise<void> {
         redirect(`/resources?error=${encodeURIComponent(friendlyError(e))}`);
     }
     revalidatePath("/resources");
+    revalidatePath("/");
     redirect("/resources");
 }
 
 export async function reactivateResourceAction(id: number): Promise<void> {
     await service.reactivateResource(id);
     revalidatePath("/resources");
+    revalidatePath("/");
     redirect("/resources");
 }

@@ -55,34 +55,8 @@ export default async function DashboardPage() {
     }
 
     return (
-        <div className="min-h-screen bg-slate-50 text-slate-900">
-            {/* Top Navigation */}
-            <header className="border-b bg-white">
-                <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-                    <div className="flex items-center gap-8">
-                        <Link href="/" className="text-xl font-bold tracking-tight text-blue-600">
-                            Bookit
-                        </Link>
-                        <nav className="flex gap-4 text-sm font-medium text-slate-600">
-                            <Link href="/resources" className="transition hover:text-slate-900">
-                                Resources
-                            </Link>
-                            <Link href="/reservations" className="transition hover:text-slate-900">
-                                Reservations
-                            </Link>
-                        </nav>
-                    </div>
-                    <Link
-                        href="/resources/new"
-                        className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
-                    >
-                        + Add Resource
-                    </Link>
-                </div>
-            </header>
-
-            <main className="mx-auto max-w-6xl px-6 py-8">
-                {/* Hero / Welcome */}
+        <div>
+            {/* Hero / Welcome */}
                 <div className="mb-8">
                     <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">Dashboard</h1>
                     <p className="mt-1 text-sm text-slate-500">
@@ -222,7 +196,6 @@ export default async function DashboardPage() {
                         )}
                     </div>
                 </div>
-            </main>
         </div>
     );
 }

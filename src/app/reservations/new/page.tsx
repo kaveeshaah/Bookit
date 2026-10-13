@@ -1,4 +1,5 @@
 import ReservationForm from "@/components/reservations/ReservationForm";
+import PageHeader from "@/components/ui/PageHeader";
 import { createReservationAction } from "@/server/actions/reservations";
 import { listResources } from "@/server/services/resource-service";
 import { listUsers } from "@/server/services/user-service";
@@ -14,14 +15,17 @@ export default async function NewReservationPage({
     const [resources, users] = await Promise.all([listResources(), listUsers()]);
 
     return (
-        <main className="mx-auto max-w-4xl p-6">
-            <h1 className="mb-6 text-2xl font-bold">New reservation</h1>
+        <div>
+            <PageHeader
+                title="New reservation"
+                description="Book a resource for a specific date and time."
+            />
             <ReservationForm
                 action={createReservationAction}
                 resources={resources}
                 users={users}
                 defaultResourceId={resource ? Number(resource) : undefined}
             />
-        </main>
+        </div>
     );
 }
