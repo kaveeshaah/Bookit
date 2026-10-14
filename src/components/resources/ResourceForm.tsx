@@ -20,7 +20,11 @@ export default function ResourceForm({ action, submitLabel, defaults }: Props) {
     state.fieldErrors?.[f]?.[0] && <p className="mt-1.5 text-sm text-rose-600">{state.fieldErrors[f]![0]}</p>;
 
   return (
-    <form action={formAction} className={`${cardStyle} max-w-xl space-y-5 p-6`}>
+    <form
+      key={state.values ? JSON.stringify(state.values) : "initial"}
+      action={formAction}
+      className={`${cardStyle} max-w-xl space-y-5 p-6`}
+    >
       {state.error && <Alert>{state.error}</Alert>}
 
       <div>
