@@ -78,3 +78,22 @@ export async function getDayAvailability(resourceId: number, dateStr: string) {
 
     return { bookings, free };
 }
+
+export async function getAllResourcesDayAvailability(dateStr: string) {
+    const resources = await db.resource.findMany({
+        orderBy: [{ is_active: "desc" }, { name: "asc" }],
+    });
+
+    const availabilities = await Promise.all(
+        resources.map(async (r) => {
+            const { bookings, free } = await getDayAvailability(r.id, dateStr);
+            return {
+                resource: r,
+                bookings,
+                free,
+            };
+        })
+    );
+
+    return availabilities;
+}
