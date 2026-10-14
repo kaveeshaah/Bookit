@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import ReservationForm from "@/components/reservations/ReservationForm";
 import PageHeader from "@/components/ui/PageHeader";
 import { createReservationAction } from "@/server/actions/reservations";
@@ -9,10 +10,14 @@ export const instant = false;
 export default async function NewReservationPage({
     searchParams,
 }: {
-    searchParams: Promise<{ resource?: string }>;
+    searchParams: Promise<{ resource?: string; date?: string; start?: string; end?: string }>;
 }) {
-    const { resource } = await searchParams;
+    await connection();
+    const { resource, date, start, end } = await searchParams;
     const [resources, users] = await Promise.all([listResources(), listUsers()]);
+
+    const defaultStartTime = start || (date ? `${date}T09:00` : undefined);
+    const defaultEndTime = end || (date ? `${date}T10:00` : undefined);
 
     return (
         <div>
@@ -25,6 +30,10 @@ export default async function NewReservationPage({
                 resources={resources}
                 users={users}
                 defaultResourceId={resource ? Number(resource) : undefined}
+                defaults={{
+                    start_time: defaultStartTime,
+                    end_time: defaultEndTime,
+                }}
             />
         </div>
     );
